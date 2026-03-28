@@ -90,7 +90,7 @@
             body.dark .card li {
                 color: #cbd5e1;
             }
-            .badge-piege {
+            body span.badge-piege,  body.dark span.badge-piege {
                 background: #fef3c7;
                 color: #92400e;
                 border: 1px solid #fcd34d;
@@ -487,6 +487,10 @@
             .annotation-btn:hover {
                 border-color: #6366f1;
                 color: #6366f1;
+            }
+
+            div#final-answer p {
+                color : #1a2332;
             }
         </style>
     </head>
@@ -2831,6 +2835,7 @@ PATCH : mise à jour partielle d'une ressource (≠ PUT qui est complet)`,
                         {/* Feedback */}
                         {answered && (
                             <div
+                                id="final-answer"
                                 className={`rounded-xl p-4 mb-4 ${
                                     isCorrect
                                         ? "bg-emerald-50 border border-emerald-200"
@@ -2874,7 +2879,7 @@ PATCH : mise à jour partielle d'une ressource (≠ PUT qui est complet)`,
                         )}
 
                         {answered && (
-                            <div className="flex justify-end">
+                            <div className="flex justify-end" id="final-answer">
                                 <button
                                     onClick={handleNext}
                                     className="px-6 py-2 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-700 text-sm"
