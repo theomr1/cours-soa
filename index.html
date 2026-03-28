@@ -3248,6 +3248,7 @@ PATCH : mise à jour partielle d'une ressource (≠ PUT qui est complet)`,
                                 const answered = s
                                     ? Object.keys(s.answers).length
                                     : 0;
+                                const total = m.quiz.length;
                                 const correct = s
                                     ? Object.keys(s.answers).filter((k) => {
                                           const q = m.quiz[parseInt(k)];
@@ -3256,7 +3257,7 @@ PATCH : mise à jour partielle d'une ressource (≠ PUT qui est complet)`,
                                     : 0;
                                 const pct =
                                     answered > 0
-                                        ? Math.round((correct / answered) * 100)
+                                        ? Math.round((correct / total) * 100)
                                         : 0;
                                 return (
                                     <div key={m.id}>
@@ -3458,6 +3459,32 @@ PATCH : mise à jour partielle d'une ressource (≠ PUT qui est complet)`,
                             module={mod}
                             onClose={() => setFlashcardMode(false)}
                         />
+                    );
+
+                // Full-screen Stats Mode
+                if (showStats)
+                    return (
+                        <div
+                            className={`min-h-screen ${darkMode ? "dark" : ""}`}
+                            style={{ background: darkMode ? "#0f172a" : "#fafaf8" }}
+                        >
+                            <div className="max-w-3xl mx-auto px-4 py-8">
+                                <button
+                                    onClick={() => setShowStats(false)}
+                                    className="mb-8 flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-colors"
+                                    style={{
+                                        color: darkMode ? "#f8fafc" : "#0f172a",
+                                        background: darkMode ? "#1e293b" : "#e2e8f0",
+                                    }}
+                                >
+                                    ← Retour
+                                </button>
+                                <StatsPanel
+                                    completedModules={completedModules}
+                                    darkMode={darkMode}
+                                />
+                            </div>
+                        </div>
                     );
 
                 return (
@@ -3689,21 +3716,13 @@ PATCH : mise à jour partielle d'une ressource (≠ PUT qui est complet)`,
                                         {modules.length} modules
                                     </div>
                                     <button
-                                        onClick={() => setShowStats((s) => !s)}
-                                        className="text-xs font-bold"
+                                        onClick={() => setShowStats(true)}
+                                        className="text-xs font-bold hover:opacity-80 transition-opacity"
                                         style={{ color: "#f0a500" }}
                                     >
-                                        {showStats ? "↑ Masquer" : "📊 Stats"}
+                                        📊 Voir les Stats
                                     </button>
                                 </div>
-                                {showStats && (
-                                    <div className="mt-3">
-                                        <StatsPanel
-                                            completedModules={completedModules}
-                                            darkMode={darkMode}
-                                        />
-                                    </div>
-                                )}
                             </div>
 
                             {/* Nav */}
@@ -4030,7 +4049,6 @@ PATCH : mise à jour partielle d'une ressource (≠ PUT qui est complet)`,
                     </div>
                 );
             };
-
             ReactDOM.createRoot(document.getElementById("root")).render(
                 <App />
             );
